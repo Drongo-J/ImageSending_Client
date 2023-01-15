@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="ImageSending_Client.Views.DragDropImageUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageSending_Client.Views"
+             mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             Height="650"
+             Width="1000">
+    <Grid Background="White">
+        <Canvas AllowDrop="True" x:Name="Canvas">
+            <Rectangle StrokeDashArray="10"
+                       StrokeThickness="2"
+                       x:Name="DragDropRectangle"
+                       StrokeDashCap="Round"
+                       RadiusX="10"
+                       AllowDrop="True"
+                       RadiusY="10"
+                       Height="524"
+                       Width="800"
+                       Stroke="#8596" 
+                       Canvas.Left="100" 
+                       Canvas.Top="60" 
+                       Canvas.Bottom="60"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Top">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Drop">
+                        <ei:CallMethodAction TargetObject="{Binding}" MethodName="DropEvent"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Rectangle.Fill>
+                    <ImageBrush></ImageBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <TextBlock FontFamily="Cascadia Code SemiBold"
+                       Text="Drag &amp; Drop Images Here!" 
+                       Canvas.Left="289" 
+                       Canvas.Top="194"
+                       x:Name="DragTextBlock"
+                       IsHitTestVisible="False"
+                       FontSize="30" Width="418">
+            </TextBlock>
+
+            <Button Background="#5cb85c"
+                    Foreground="White"
+                    Canvas.Left="390"
+                    Canvas.Top="413" 
+                    Command="{Binding ChooseFileCommand}"
+                    Height="52"
+                    x:Name="ChooseFileButton"
+                    Cursor="Hand"
+                    FontFamily="Cascadia Code SemiBold"
+                    FontSize="19" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Width="221">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="\Images\picture.png"></Image>
+                        <TextBlock Text="Choose Images"
+                                   Margin="0,10"
+                                   Padding="0,4"
+                                   TextWrapping="WrapWithOverflow">
+                        </TextBlock>
+                    </StackPanel>
+                </Button.Content>
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="6"></Setter>
+                    </Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#5cb85c"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#173417"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <TextBlock FontFamily="Cascadia Code SemiBold"
+                       Text="OR" 
+                       Canvas.Left="481" 
+                       Canvas.Top="306"
+                       x:Name="DragTextBlock_Copy"
+                       IsHitTestVisible="False"
+                       FontSize="35" 
+                       Width="44">
+            </TextBlock>
+        </Canvas>
+    </Grid>
+</UserControl>

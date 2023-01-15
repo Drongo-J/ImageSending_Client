@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="ImageSending_Client.Views.SendImageUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageSending_Client.Views"
+             mc:Ignorable="d" 
+             Height="650"
+             Width="1000">
+    <Grid Background="White">
+        <StackPanel Orientation="Vertical">
+            <Separator Background="#8596"></Separator>
+            <Image Height="400"
+                   Width="800"
+                   Stretch="Uniform"
+                   Source="{Binding ImageSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            </Image>
+            <Separator Background="#8596"></Separator>
+ 
+            <TextBlock Text="Enter title for the image"
+                       FontFamily="Cascadia Code SemiBold"
+                       FontSize="30"
+                       Margin="0,40,0,0"
+                       TextAlignment="Center">
+            </TextBlock>
+
+            <TextBox Width="520"
+                     Text="{Binding Title, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            </TextBox>
+
+            <Button Width="325"
+                    Margin="0,20,0,0"
+                    Content="{Binding ButtonText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding ButtonCommand}">
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
