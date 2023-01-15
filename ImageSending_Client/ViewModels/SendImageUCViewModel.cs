@@ -1,6 +1,8 @@
 ﻿using ImageSending_Client.Commands;
 using ImageSending_Client.Helpers;
 using ImageSending_Client.Models;
+using ImageSending_Client.Services.NetworkServices;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,7 +59,17 @@ namespace ImageSending_Client.ViewModels
             ButtonCommand = new RelayCommand(async (b) =>
              {
                  var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                 var ipAdress = IPAddress.Parse(App.IPAdress);
+                 string ip;
+                 try
+                 {
+                     ip = NetworkHelpers.GetLocalIpAddress();
+                 }
+                 catch (Exception ex)
+                 {
+                     MessageBox.Show(ex.Message);
+                     return;
+                 }
+                 var ipAdress = IPAddress.Parse(ip);
                  var port = Constants.Port;
                  var ep = new IPEndPoint(ipAdress, port);
 
@@ -105,11 +117,11 @@ namespace ImageSending_Client.ViewModels
                                  await socket.ConnectAsync(ep);
                              }
 
-                             //var imageMessage = new ImageMessage()
-                             //{
-                             //    ImageBytes = ImageHelper.ImageSourceToBytes(ImageSource),
-                             //    Title = this.Title
-                             //};
+                             var imageMessage = new ImageMessage()
+                             {
+                                 ImageBytes = ImageHelper.ImageSourceToBytes(ImageSource),
+                                 Title = this.Title
+                             };
 
                              //var str = JsonHelpers.Serialize(imageMessage);
                              //Byte[] bytes = System.Text.Encoding.ASCII.GetBytes(str.ToCharArray());
@@ -132,16 +144,11 @@ namespace ImageSending_Client.ViewModels
                              //writeEventArgs.SetBuffer(bytesSent, 0, bytesSent.Length);
                              //socket.SendAsync(writeEventArgs);
 
-                             var message = "Hello there";
-                             var bytes = Encoding.UTF8.GetBytes(message);
+                             var jsonStr = JsonConvert.SerializeObject(imageMessage);
+                             var bytes = Encoding.UTF8.GetBytes(jsonStr);
                              socket.Send(bytes);
 
                              MessageBox.Show("Message was sent");
-
-                             //else
-                             //{
-                             //    MessageBox.Show("You are not connected to the server");
-                             //}
                          }
                      }
                      catch (Exception ex)

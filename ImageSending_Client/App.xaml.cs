@@ -18,8 +18,6 @@ namespace ImageSending_Client
 
         public static List<UIElement> Pages { get; set; } = new List<UIElement>();
 
-        public static string IPAdress { get; set; } = "192.168.1.67";
-
         public static void ChangePage(UIElement newPage, bool addNewPage = true)
         {
             if (addNewPage)

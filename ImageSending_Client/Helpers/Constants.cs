@@ -12,6 +12,6 @@ namespace ImageSending_Client.Helpers
         public const string SendMessage = "Send Message"; 
         public const string StatusConnected = "Status : Connected"; 
         public const string StatusDisconnected = "Status : Disconnected";
-        public static int Port = 80;
+        public static int Port = 27001;
     }
 }
