@@ -4,21 +4,12 @@ using ImageSending_Client.Models;
 using ImageSending_Client.Services.NetworkServices;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ImageSending_Client.ViewModels
 {
@@ -77,8 +68,6 @@ namespace ImageSending_Client.ViewModels
                  {
                      try
                      {
-                         //string hostName = Dns.GetHostName(); // Retrive the Name of HOST
-                         //string myIP = Dns.GetHostEntry(hostName).AddressList[0].ToString(); // Get the IP
                          using (socket)
                          {
                              await socket.ConnectAsync(ep);
@@ -119,33 +108,12 @@ namespace ImageSending_Client.ViewModels
 
                              var imageMessage = new ImageMessage()
                              {
-                                 ImageBytes = ImageHelper.ImageSourceToBytes(ImageSource),
+                                 ImageBytes = ImageHelper.ConvertImageSourceToBytes(ImageSource as BitmapSource),
                                  Title = this.Title
                              };
 
-                             //var str = JsonHelpers.Serialize(imageMessage);
-                             //Byte[] bytes = System.Text.Encoding.ASCII.GetBytes(str.ToCharArray());
-                             //await socket.ConnectAsync(ep);
-
-                             //var bytes = ByteHelper.ToByteArray(imageMessage);
-                             //socket.Send(bytes);
-                             //var bytes = Encoding.UTF8.GetBytes();
-
-
-
-
-                             //Stream stream = File.Open("data.xml", FileMode.Create);
-                             //SoapFormatter formatter= new SoapFormatter();
-                             //formatter.Serialize(stream, imageMessage);
-
-                             //Byte[] bytesSent = ByteHelper.ReadToEnd(stream);
-                             //stream.Close();
-                             //SocketAsyncEventArgs writeEventArgs = new SocketAsyncEventArgs();
-                             //writeEventArgs.SetBuffer(bytesSent, 0, bytesSent.Length);
-                             //socket.SendAsync(writeEventArgs);
-
-                             var jsonStr = JsonConvert.SerializeObject(imageMessage);
-                             var bytes = Encoding.UTF8.GetBytes(jsonStr);
+                             var jsonStr = JsonConvert.SerializeObject(imageMessage, Formatting.Indented);
+                             var bytes = Encoding.ASCII.GetBytes(jsonStr);
                              socket.Send(bytes);
 
                              MessageBox.Show("Message was sent");
@@ -157,11 +125,6 @@ namespace ImageSending_Client.ViewModels
                      }
                  }
              });
-        }
-
-        public void SendMessage(string text)
-        {
-           
         }
     }
 }
